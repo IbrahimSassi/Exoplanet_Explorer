@@ -87,6 +87,22 @@ Instructions:
   //Second VERSION
 
 
+  /**
+   * Helper function to create a planet thumbnail.
+   * @param  {Object} data - The raw data describing the planet.
+   */
+  function createPlanetThumb(data) {
+    var pT = document.createElement('planet-thumb');
+    for (var d in data) {
+      pT[d] = data[d];
+    }
+    home.appendChild(pT);
+  }
+
+
+
+
+
   function get(url) {
     /*
     Use the Fetch API to GET a URL.
@@ -127,10 +143,20 @@ Instructions:
       .then(function (data) {
         addSearchHeader(data.query);
         console.log(data);
-        return data.results[0];
+        return getJSON(data.results[0]);
       })
+      .catch(function(){
+        throw Error("Search Error Request");
+      })
+      /*
       .then(function(url){
-        console.log(url)
+        console.log(url);
+        return getJSON(url);
+      })
+      */
+      .then(function(data){
+        console.log(data);
+        createPlanetThumb(data);
       })
       .catch(function(error){
         addSearchHeader("unknown");
