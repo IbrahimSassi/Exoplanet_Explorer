@@ -32,10 +32,13 @@ Instructions:
    * @param  {String} url - The URL to fetch.
    * @return {Promise}    - A Promise that resolves when the XHR succeeds and fails otherwise.
    */
+
+  //First VERSION
+  /*
   function get(url) {
     /*
     This code needs to get wrapped in a Promise!
-     */
+     
 
     return new Promise(function (resolve, reject) {
       var req = new XMLHttpRequest();
@@ -66,7 +69,7 @@ Instructions:
     Uncomment the next line you're ready to start chaining and testing!
     You'll need to add a .then and a .catch. Pass the response to addSearchHeader on resolve or
     pass 'unknown' to addSearchHeader if it rejects.
-     */
+     
     get('../data/earth-like-results.json')
       .then(function (data) {
         console.log(JSON.parse(data));
@@ -78,4 +81,66 @@ Instructions:
 
       });
   });
+
+  */
+
+  //Second VERSION
+
+
+  function get(url) {
+    /*
+    Use the Fetch API to GET a URL.
+    Return the fetch.
+    Your code goes here!
+     */
+
+    return fetch(url, {
+      method: 'get'
+    });
+
+
+  };
+
+  /**
+   * Performs an XHR for a JSON and returns a parsed JSON response.
+   * @param  {String} url - The JSON URL to fetch.
+   * @return {Promise}    - A promise that passes the parsed JSON response.
+   */
+  function getJSON(url) {
+    /*
+    Return a Promise that gets a URL and parses the JSON response. Use your get method!
+    Your code goes here!
+     */
+    return get(url).then(function (response) {
+      return response.json();
+    })
+  }
+
+  window.addEventListener('WebComponentsReady', function () {
+    home = document.querySelector('section[data-route="home"]');
+    /*
+    Uncomment the next line when you're ready to test!
+    Don't forget to chain with a .then and a .catch!
+    Your code goes here too!
+     */
+    getJSON('../data/earth-like-results.json')
+      .then(function (data) {
+        addSearchHeader(data.query);
+        console.log(data);
+        return data.results[0];
+      })
+      .then(function(url){
+        console.log(url)
+      })
+      .catch(function(error){
+        addSearchHeader("unknown");
+        console.log(error)
+      })
+
+  });
+
+
+
+
+
 })(document);
